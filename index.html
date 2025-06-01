@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KMLA AlumNight 2025</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="title-page">
+    <img src="title.png" alt="Minjok Studios" style="width: 250px;">
+    <ul>
+        <li>촬영을 위해 카메라의 접근 권한이 필요합니다.</li>
+        <li>사진 촬영 후, 사진을 다운로드할 수 있습니다.</li>
+        <li>사진은 별도의 서버에 저장되지 않습니다.</li>
+    </ul>    
+    <button id="enter-btn" onclick="enterPhotoBooth()" style="font-weight: bold;">Enter</button>
+  </div>
+
+  <div id="photo-booth">
+    <img src="title2.png" alt="Minjok Studios" style="height:50px; padding:15px;">
+    <div id="camera-container">
+      <video id="video" autoplay playsinline></video>
+      <img id="capture-preview">
+      <div id="controls">
+        <button onclick="takePhoto()" style="font-weight: bold;">📸 Capture (<span id="photo-count">0</span>/4)</button>
+      </div>
+      <div id="timer-overlay"></div>
+    </div>
+    <div id="final-result">
+      <img id="final-image">
+      <div class="final-controls">
+        <button onclick="downloadPhoto()" style="font-weight: bold;">⬇️ Download</button>
+        <button onclick="retakePhotos()" style="font-weight: bold;">🔄 Retake</button>
+      </div>
+    </div>
+    <canvas id="canvas"></canvas>
+  </div>
+
+  <script>
+    function enterPhotoBooth() {
+      document.getElementById('title-page').style.display = 'none';
+      document.getElementById('photo-booth').style.display = 'flex';
+    }
+
+    function showFinalResult() {
+      document.getElementById('camera-container').style.display = 'none';
+      document.getElementById('final-result').style.display = 'flex';
+    }
+
+    function retakePhotos() {
+      document.getElementById('camera-container').style.display = 'flex';
+      document.getElementById('final-result').style.display = 'none';
+      resetPhotos();
+    }
+
+    function downloadPhoto() {
+      const link = document.createElement('a');
+      link.download = 'photobooth-strip.jpg';
+      link.href = document.getElementById('final-image').src;
+      link.click();
+    }
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
