@@ -9,6 +9,8 @@ const photos = [];
 let isCapturing = false;
 let photoCount = 0;
 
+video.style.transform = 'scaleX(-1)'; // Flip the video
+
 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
   .then(stream => video.srcObject = stream)
   .catch(err => alert('Camera access denied: ' + err));
@@ -51,7 +53,16 @@ function captureImage() {
   const ctx = canvas.getContext('2d');
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
+
+  // Flip the context horizontally
+  ctx.scale(-1, 1);
+  ctx.translate(-canvas.width, 0);
+
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  
+  // Restore transformation
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+
   const imgData = canvas.toDataURL('image/png');
   photos.push(imgData);
   photoCount++;
